@@ -3,7 +3,7 @@ A template for a bot, written in C++ using DiscordCoreAPI.
 ## Build Instructions - With VCPKG
 ----
 1. Make sure you've run `vcpkg integrate install`.
-2. Set the `VCPKG_ROOT_DIR` in [CMakeLists.txt](https://github.com/RealTimeChris/Bot-Template-for-DiscordCoreAPI/blob/main/CMakeLists.txt) to the root directory of your VCPKG installation, and make sure you've installed DiscordCoreAPI with it - then start up a project in your IDE, set the C++ standard to 20 or newer, and `#include <discordcoreapi/Index.hpp>`. Add main.cpp to it.
+2. Set the `VCPKG_ROOT_DIR` in [CMakeLists.txt](https://github.com/RealTimeChris/Bot-Template-for-DiscordCoreAPI/blob/main/CMakeLists.txt#L2) to the root directory of your VCPKG installation, and make sure you've installed DiscordCoreAPI with it - then start up a project in your IDE, set the C++ standard to 20 or newer, and `#include <discordcoreapi/Index.hpp>`. Add main.cpp to it.
 3. Run in a terminal from within the same folder as the top-level [CMakeLists.txt](https://github.com/RealTimeChris/Bot-Template-for-DiscordCoreAPI/blob/main/CMakeLists.txt), `cmake -S . --preset Linux_OR_Windows-Debug_OR_Release`.
 4. Then run `cmake --build --preset Linux_OR_Windows-Debug_OR_Release`. The resultant executable will be within a folder called Output Files/Debug_OR_Release, in the top-level folder of the repo.
 ## Build Instructions - Without VCPKG
