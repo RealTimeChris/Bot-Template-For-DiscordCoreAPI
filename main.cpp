@@ -11,7 +11,11 @@ void onBoot01(DiscordCoreAPI::DiscordCoreClient* args) {
 	activity.name = "/help for my commands!";
 	activity.type = DiscordCoreAPI::ActivityType::Game;
 	activities.push_back(activity);
-	args->getBotUser().updatePresence({ .activities = activities, .status = "online", .afk = false });
+	DiscordCoreAPI::UpdatePresenceData dataPackage{};
+	dataPackage.activities = activities;
+	dataPackage.status = "online";
+	dataPackage.afk = false;
+	args->getBotUser().updatePresence(dataPackage);
 }
 
 int32_t main() {
