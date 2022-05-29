@@ -22,7 +22,7 @@ int32_t main() {
 	std::string botToken = "YOUR_BOT_TOKEN_HERE";
 	std::vector<DiscordCoreAPI::RepeatedFunctionData> functionVector{};
 	DiscordCoreAPI::RepeatedFunctionData function01{};
-	function01.function = std::ref(onBoot00);
+	function01.function = onBoot01;
 	function01.intervalInMs = 50;
 	function01.repeated = false;
 	functionVector.push_back(function01);
