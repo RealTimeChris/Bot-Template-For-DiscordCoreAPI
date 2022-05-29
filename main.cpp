@@ -19,16 +19,18 @@ void onBoot01(DiscordCoreAPI::DiscordCoreClient* args) {
 }
 
 int32_t main() {
-	std::string botToken = "OTU4NDg0MTkxMzcxMjEwODEy.YkN_9g.i6L9-s_b-i6hyktOS_a1HujWmyQ";
+	std::string botToken = "YOUR_BOT_TOKEN_HERE";
 	std::vector<DiscordCoreAPI::RepeatedFunctionData> functionVector{};
 	DiscordCoreAPI::RepeatedFunctionData function01{};
-	function01.function = onBoot01;
-	function01.intervalInMs = 1000;
+	function01.function = std::ref(onBoot00);
+	function01.intervalInMs = 50;
 	function01.repeated = false;
 	functionVector.push_back(function01);
-	auto thePtr = std::make_unique<DiscordCoreAPI::DiscordCoreClient>(botToken, functionVector);
-	thePtr->registerFunction(std::vector<std::string>{ "registerapplicationcommands" }, std::make_unique<DiscordCoreAPI::RegisterApplicationCommands>());
-	thePtr->registerFunction(std::vector<std::string>{ "test" }, std::make_unique<DiscordCoreAPI::Test>());
+	DiscordCoreAPI::DiscordCoreClientConfig clientOptions{};
+	clientOptions.textFormat = DiscordCoreAPI::TextFormat::Etf;
+	clientOptions.botToken = botToken;
+	clientOptions.functionsToExecute = functionVector;
+	auto thePtr = std::make_unique<DiscordCoreAPI::DiscordCoreClient>(clientOptions);
 	thePtr->runBot();
 	return 0;
 }
