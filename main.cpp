@@ -29,6 +29,10 @@ int32_t main() {
 	DiscordCoreAPI::DiscordCoreClientConfig clientOptions{};
 	clientOptions.textFormat = DiscordCoreAPI::TextFormat::Etf;
 	clientOptions.botToken = botToken;
+	clientOptions.logOptions.logFFMPEGErrorMessages = true;
+	clientOptions.logOptions.logGeneralErrorMessages= true;
+	clientOptions.logOptions.logHttpsErrorMessages= true;
+	clientOptions.logOptions.logWebSocketErrorMessages = true;
 	clientOptions.functionsToExecute = functionVector;
 	auto thePtr = std::make_unique<DiscordCoreAPI::DiscordCoreClient>(clientOptions);
 	thePtr->runBot();
