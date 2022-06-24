@@ -1,29 +1,26 @@
 # Set this value...
-set(VCPKG_ROOT_DIR "C:/Vcpkg")
+set(VCPKG_ROOT_DIR "")
 # OR this value...
-set(CMAKE_CONFIG_FILE_DIR "")
+set(CMAKE_CONFIG_FILE_DIR "C:/Users/Chris/CMake/DiscordCoreAPI/share/discordcoreapi")
 # AND these values.
-set(CURL_INCLUDE_DIR "")
-set(CURL_RELEASE_ROOT "")
-set(CURL_DEBUG_ROOT "")
-set(FFMPEG_INCLUDE_DIR "")
-set(FFMPEG_RELEASE_ROOT "")
-set(FFMPEG_DEBUG_ROOT "")
-set(NLOHMANN_INCLUDE_DIR "")
-set(OPENSSL_INCLUDE_DIR "")
-set(OPENSSL_RELEASE_ROOT "")
-set(OPENSSL_DEBUG_ROOT "")
-set(OPUS_INCLUDE_DIR "")
-set(OPUS_RELEASE_ROOT "")
-set(OPUS_DEBUG_ROOT "")
-set(SODIUM_INCLUDE_DIR "")
-set(SODIUM_RELEASE_ROOT "")
-set(SODIUM_DEBUG_ROOT "")
+set(FFMPEG_INCLUDE_DIR "C:/Vcpkg/installed/x64-windows/include")
+set(FFMPEG_RELEASE_ROOT "C:/Vcpkg/installed/x64-windows/lib")
+set(FFMPEG_DEBUG_ROOT "C:/Vcpkg/installed/x64-windows/debug/lib")
+set(NLOHMANN_INCLUDE_DIR "C:/Vcpkg/installed/x64-windows/include")
+set(OPENSSL_INCLUDE_DIR "C:/Vcpkg/installed/x64-windows/include")
+set(OPENSSL_RELEASE_ROOT "C:/Vcpkg/installed/x64-windows/lib")
+set(OPENSSL_DEBUG_ROOT "C:/Vcpkg/installed/x64-windows/debug/lib")
+set(OPUS_INCLUDE_DIR "C:/Vcpkg/installed/x64-windows/include")
+set(OPUS_RELEASE_ROOT "C:/Vcpkg/installed/x64-windows/lib")
+set(OPUS_DEBUG_ROOT "C:/Vcpkg/installed/x64-windows/debug/lib")
+set(SODIUM_INCLUDE_DIR "C:/Vcpkg/installed/x64-windows/include")
+set(SODIUM_RELEASE_ROOT "C:/Vcpkg/installed/x64-windows/lib")
+set(SODIUM_DEBUG_ROOT "C:/Vcpkg/installed/x64-windows/debug/lib")
 
 cmake_minimum_required(VERSION 3.20)
 set(PROJECT_NAME "DiscordCoreAPI-Bot")
 set(PRODUCT_VERSION "1.0.0.9")
-set(DESCRIPTION "A Discord bot, written in C++, using custom asynchronous coroutines.")
+set(DESCRIPTION "A Discord bot, written in C++, using the DiscordCoreAPI Discord bot library.")
 project(
 	"${PROJECT_NAME}"
 	VERSION "${PRODUCT_VERSION}"
@@ -36,8 +33,7 @@ set(CMAKE_CONFIGURATION_TYPES "${CMAKE_BUILD_TYPE}")
 
 if(NOT EXISTS "${VCPKG_ROOT_DIR}" AND EXISTS "${CMAKE_CONFIG_FILE_DIR}")
 	set(DiscordCoreAPI_DIR "${CMAKE_CONFIG_FILE_DIR}")
-	if (NOT EXISTS "${CURL_INCLUDE_DIR}" OR NOT EXISTS "${CURL_RELEASE_ROOT}" OR NOT EXISTS "${CURL_DEBUG_ROOT}"
-		OR NOT EXISTS "${FFMPEG_INCLUDE_DIR}" OR NOT EXISTS "${FFMPEG_RELEASE_ROOT}" OR NOT EXISTS "${FFMPEG_DEBUG_ROOT}"
+	if (NOT EXISTS "${FFMPEG_INCLUDE_DIR}" OR NOT EXISTS "${FFMPEG_RELEASE_ROOT}" OR NOT EXISTS "${FFMPEG_DEBUG_ROOT}"
 		OR NOT EXISTS "${NLOHMANN_INCLUDE_DIR}" 
 		OR NOT EXISTS "${OPENSSL_INCLUDE_DIR}" OR NOT EXISTS "${OPENSSL_RELEASE_ROOT}" OR NOT EXISTS "${OPENSSL_DEBUG_ROOT}"
 		OR NOT EXISTS "${OPUS_INCLUDE_DIR}" OR NOT EXISTS "${OPUS_RELEASE_ROOT}" OR NOT EXISTS "${OPUS_DEBUG_ROOT}"
@@ -52,9 +48,6 @@ elseif(EXISTS "${VCPKG_ROOT_DIR}")
 	set(VCPKG_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/include")
 	set(VCPKG_RELEASE_ROOT "${VCPKG_INSTALLED_DIR}/lib")
 	set(VCPKG_DEBUG_ROOT "${VCPKG_INSTALLED_DIR}/debug/lib")
-	set(CURL_INCLUDE_DIR "${VCPKG_INCLUDE_DIR}")
-	set(CURL_RELEASE_ROOT "${VCPKG_RELEASE_ROOT}")
-	set(CURL_DEBUG_ROOT "${VCPKG_DEBUG_ROOT}")
 	set(FFMPEG_INCLUDE_DIR "${VCPKG_INCLUDE_DIR}")
 	set(FFMPEG_RELEASE_ROOT "${VCPKG_RELEASE_ROOT}")
 	set(FFMPEG_DEBUG_ROOT "${VCPKG_DEBUG_ROOT}")
@@ -72,7 +65,6 @@ else()
 	message(FATAL_ERROR "Please, set the VCPKG base directory, or the location of the DiscordCoreAPIConfig.cmake file!")
 endif()
 
-include(FindCurl)
 include(FindFFMPEG)
 include(FindNlohmannJson)
 include(FindOpenSSL)

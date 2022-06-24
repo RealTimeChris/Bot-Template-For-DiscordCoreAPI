@@ -7,7 +7,7 @@ generate_product_version(
 	VERSION_MAJOR "1"
 	VERSION_MINOR "0"
 	VERSION_PATCH "0"
-	VERSION_REVISION "0"
+	VERSION_REVISION "9"
 )
 
 add_executable(
