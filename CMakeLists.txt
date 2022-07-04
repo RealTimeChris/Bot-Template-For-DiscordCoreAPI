@@ -66,7 +66,7 @@ else()
 endif()
 
 find_package(FFMPEG MODULE REQUIRED)
-find_package(NLOHMANNJSON MODULE REQUIRED)
+find_package(NLOHMANN MODULE REQUIRED)
 find_package(OPENSSL MODULE REQUIRED)
 find_package(OPUS MODULE REQUIRED)
 find_package(SODIUM MODULE REQUIRED)
