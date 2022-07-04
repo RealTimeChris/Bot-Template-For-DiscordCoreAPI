@@ -26,8 +26,6 @@ if (DEFINED ENV{EnableASAN})
 	endif()
 endif()
 
-find_package(DiscordCoreAPI CONFIG REQUIRED)
-
 target_link_libraries(
 	"${PROJECT_NAME}" PUBLIC
 	DiscordCoreAPI::DiscordCoreAPI
