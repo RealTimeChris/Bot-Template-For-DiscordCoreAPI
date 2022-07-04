@@ -35,6 +35,10 @@ int32_t main() {
 	clientOptions.logOptions.logWebSocketErrorMessages = true;
 	clientOptions.functionsToExecute = functionVector;
 	auto thePtr = std::make_unique<DiscordCoreAPI::DiscordCoreClient>(clientOptions);
-	thePtr->runBot();
+	try {
+		thePtr->runBot();
+	} catch (...) {
+		DiscordCoreAPI::reportException("DiscordCoreAPI::DiscordCoreClient::run()");
+	}	
 	return 0;
 }
