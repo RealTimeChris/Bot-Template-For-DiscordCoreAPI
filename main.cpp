@@ -17,7 +17,7 @@ void onBoot(DiscordCoreAPI::DiscordCoreClient* args) {
 }
 
 int32_t main() {
-	std::string botToken = "YOUR_BOT_TOKEN_HERE";
+	std::string botToken = "OTMxMzEyMzM5MTQ2Mzc1MjE5.GoTCHr.72ep8ANgLYFfbVFHBat9dFH01Jz7Ii99tVA4ZA";
 	std::vector<DiscordCoreAPI::RepeatedFunctionData> functionVector{};
 	DiscordCoreAPI::RepeatedFunctionData function{};
 	function.function = onBoot;
@@ -32,7 +32,9 @@ int32_t main() {
 	logOptions.logFFMPEGErrorMessages = true;
 	logOptions.logGeneralErrorMessages = true;
 	logOptions.logHttpsErrorMessages = true;
+	logOptions.logHttpsSuccessMessages = true;
 	logOptions.logWebSocketErrorMessages = true;
+	logOptions.logWebSocketSuccessMessages = true;
 	DiscordCoreAPI::DiscordCoreClientConfig clientConfig{};
 	clientConfig.botToken = botToken;
 	clientConfig.logOptions = logOptions;
@@ -40,6 +42,8 @@ int32_t main() {
 	clientConfig.functionsToExecute = functionVector;
 	auto thePtr = std::make_unique<DiscordCoreAPI::DiscordCoreClient>(clientConfig);
 	thePtr->registerFunction(std::vector<std::string>{ "play" }, std::make_unique<DiscordCoreAPI::Play>());
+	thePtr->registerFunction(std::vector<std::string>{ "botinfo" }, std::make_unique<DiscordCoreAPI::BotInfo>());
+	thePtr->registerFunction(std::vector<std::string>{ "help" }, std::make_unique<DiscordCoreAPI::Help>());
 	thePtr->runBot();
 	return 0;
 };
