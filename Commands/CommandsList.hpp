@@ -5,4 +5,6 @@
 
 #pragma once
 
+#include "BotInfo.hpp"
+#include "Help.hpp"
 #include "Play.hpp"
