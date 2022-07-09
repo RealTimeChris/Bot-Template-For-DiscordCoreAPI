@@ -1,5 +1,5 @@
 # Set this value...
-set(VCPKG_ROOT_DIR "/home/chris/vcpkg")
+set(VCPKG_ROOT_DIR "C:/Vcpkg")
 # OR this value...
 set(CMAKE_CONFIG_FILE_DIR "")
 # AND these values.
