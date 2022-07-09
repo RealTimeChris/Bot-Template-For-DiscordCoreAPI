@@ -36,7 +36,7 @@ namespace DiscordCoreAPI {
 					std::vector<std::vector<SelectOptionData>> selectOptions;
 					int32_t counter{ 0 };
 					int32_t currentHelpPage{ 0 };
-					for (auto& [key, value]: newArgs.discordCoreClient->commandController.getFunctions()) {
+					for (auto& [key, value]: newArgs.discordCoreClient->getCommandController().getFunctions()) {
 						if (counter % 24 == 0) {
 							selectOptions.push_back(std::vector<SelectOptionData>());
 							currentHelpPage += 1;
@@ -160,10 +160,10 @@ namespace DiscordCoreAPI {
 					std::unique_ptr<SelectMenuCollector> selectMenu{ std::make_unique<SelectMenuCollector>(newEvent01) };
 					auto selectMenuReturnData = selectMenu->collectSelectMenuData(false, 120000, 1, newArgs.eventData.getAuthorId()).get();
 					EmbedData newEmbed{};
-					for (auto& [key, value]: newArgs.discordCoreClient->commandController.getFunctions()) {
+					for (auto& [key, value]: newArgs.discordCoreClient->getCommandController().getFunctions()) {
 						for (auto& valueNew: key) {
 							if (valueNew == selectMenuReturnData.at(0).values.at(0)) {
-								newEmbed = newArgs.discordCoreClient->commandController.getFunctions().at(key)->helpEmbed;
+								newEmbed = newArgs.discordCoreClient->getCommandController().getFunctions().at(key)->helpEmbed;
 							}
 						}
 					}
