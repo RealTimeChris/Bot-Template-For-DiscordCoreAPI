@@ -17,7 +17,7 @@ void onBoot(DiscordCoreAPI::DiscordCoreClient* args) {
 }
 
 int32_t main() {
-	std::string botToken = "OTMxMzEyMzM5MTQ2Mzc1MjE5.GoTCHr.72ep8ANgLYFfbVFHBat9dFH01Jz7Ii99tVA4ZA";
+	std::string botToken = "YOUR_BOT_TOKEN_HERE";
 	std::vector<DiscordCoreAPI::RepeatedFunctionData> functionVector{};
 	DiscordCoreAPI::RepeatedFunctionData function{};
 	function.function = onBoot;
