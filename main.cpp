@@ -5,25 +5,9 @@
 
 #include "Commands/CommandsList.hpp"
 
-void onBoot(DiscordCoreAPI::DiscordCoreClient* args) {
-	std::vector<DiscordCoreAPI::ActivityData> activities;
-	DiscordCoreAPI::ActivityData activity;
-	activity.name = "/help for my commands!";
-	activity.type = DiscordCoreAPI::ActivityType::Game;
-	activities.push_back(activity);
-	auto botUser = args->getBotUser();
-	DiscordCoreAPI::UpdatePresenceData dataPackage{ .activities = activities, .status = "online", .afk = false };
-	botUser.updatePresence(dataPackage);
-}
-
 int32_t main() {
 	std::string botToken = "YOUR_BOT_TOKEN_HERE";
 	std::vector<DiscordCoreAPI::RepeatedFunctionData> functionVector{};
-	DiscordCoreAPI::RepeatedFunctionData function{};
-	function.function = onBoot;
-	function.intervalInMs = 200;
-	function.repeated = false;
-	functionVector.push_back(function);
 	DiscordCoreAPI::ShardingOptions shardOptions{};
 	shardOptions.numberOfShardsForThisProcess = 1;
 	shardOptions.startingShard = 0;
@@ -40,6 +24,15 @@ int32_t main() {
 	clientConfig.logOptions = logOptions;
 	clientConfig.shardOptions = shardOptions;
 	clientConfig.functionsToExecute = functionVector;
+	std::vector<DiscordCoreAPI::ActivityData> activities{};
+	DiscordCoreAPI::ActivityData activity{};
+	activity.name = "/help for my commands!";
+	activity.type = DiscordCoreAPI::ActivityType::Game;
+	activities.push_back(activity);
+	clientConfig.presenceData.activities = activities;
+	clientConfig.presenceData.afk = false;
+	clientConfig.presenceData.since = 0;
+	clientConfig.presenceData.status = "online";
 	auto thePtr = std::make_unique<DiscordCoreAPI::DiscordCoreClient>(clientConfig);
 	thePtr->registerFunction(std::vector<std::string>{ "play" }, std::make_unique<DiscordCoreAPI::Play>());
 	thePtr->registerFunction(std::vector<std::string>{ "botinfo" }, std::make_unique<DiscordCoreAPI::BotInfo>());
