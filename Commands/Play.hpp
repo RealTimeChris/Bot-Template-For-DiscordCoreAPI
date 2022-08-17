@@ -109,9 +109,9 @@ namespace DiscordCoreAPI {
 
 				previousPlayedTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 				Play::timeOfLastPlay.insert_or_assign(newArgs.eventData.getGuildId(), previousPlayedTime);
-				VoiceStateData voiceStateData{};
-				if (guild.voiceStates.contains(guildMember.id)) {
-					voiceStateData = guild.voiceStates.at(guildMember.id);
+				Snowflake currentVoiceChannelId{};
+				if (guildMember.currentVoiceChannel != 0) {
+					currentVoiceChannelId = guildMember.currentVoiceChannel;
 				} else {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
