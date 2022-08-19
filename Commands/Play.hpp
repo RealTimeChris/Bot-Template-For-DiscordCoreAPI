@@ -109,9 +109,9 @@ namespace DiscordCoreAPI {
 
 				previousPlayedTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 				Play::timeOfLastPlay.insert_or_assign(newArgs.eventData.getGuildId(), previousPlayedTime);
-				Snowflake currentVoiceChannelId{};
+				Snowflake voiceChannelId{};
 				if (guildMember.currentVoiceChannel != 0) {
-					currentVoiceChannelId = guildMember.currentVoiceChannel;
+					voiceChannelId = guildMember.currentVoiceChannel;
 				} else {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
@@ -129,8 +129,7 @@ namespace DiscordCoreAPI {
 					InputEvents::deleteInputEventResponseAsync(newerEvent, 20000);
 					return;
 				}
-
-				VoiceConnection* voiceConnection = guild.connectToVoice(guildMember.id, 0, true, false);
+				VoiceConnection* voiceConnection = guild.connectToVoice(guildMember.id, 0, false, false);
 				if (voiceConnection == nullptr) {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
@@ -148,8 +147,9 @@ namespace DiscordCoreAPI {
 					InputEvents::deleteInputEventResponseAsync(newerEvent, 20000);
 					return;
 				}
+				
 
-				if (voiceStateData.channelId == 0 || voiceStateData.channelId != voiceConnection->getChannelId()) {
+				if (guildMember.currentVoiceChannel == 0 || guildMember.currentVoiceChannel != voiceConnection->getChannelId()) {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
 					newEmbed->setDescription("------\n__**Sorry, but you need to be in a correct voice channel to issue those commands!**__\n------");
@@ -215,6 +215,8 @@ namespace DiscordCoreAPI {
 					newEvent = InputEvents::respondToInputEventAsync(dataPackage0).get();
 
 					returnData = recurseThroughOptions(returnData, currentPageIndex, newEvent, embedsFromSearch, newArgs, arrayOfIndices, guildMember, searchResults);
+					
+					
 				}
 				auto channelId = newArgs.eventData.getChannelId();
 				if (!SongAPI::areWeCurrentlyPlaying(guild.id)) {
@@ -229,6 +231,7 @@ namespace DiscordCoreAPI {
 									SongAPI::play(guildMember.guildId);
 									co_return;
 								}
+								
 								newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
 								newEmbed->setDescription("__**Title:**__ [" + SongAPI::getCurrentSong(eventData.guild.id).songTitle + "](" +
 									SongAPI::getCurrentSong(eventData.guild.id).viewUrl + ")" + "\n__**Description:**__ " +
@@ -257,6 +260,8 @@ namespace DiscordCoreAPI {
 							} else {
 								GuildMember guildMemberNew{ eventData.guildMember };
 								SongAPI::sendNextSong(guildMemberNew);
+								
+								
 								newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
 								newEmbed->setDescription("__**It appears as though there was an error when trying to play the following track!**__\n__**Title:**__ [" +
 									eventData.previousSong.songTitle + "](" + eventData.previousSong.viewUrl + ")" + "\n__**Description:**__ " +
@@ -310,6 +315,7 @@ namespace DiscordCoreAPI {
 									Messages::createMessageAsync(dataPackage03).get();
 								}
 							}
+							
 						} else {
 							std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 							newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
@@ -360,6 +366,7 @@ namespace DiscordCoreAPI {
 						dataPackage02.setResponseType(InputEventResponseType::Follow_Up_Message);
 						dataPackage02.addMessageEmbed(*newEmbed);
 						newEvent = InputEvents::respondToInputEventAsync(dataPackage02).get();
+						
 						SongAPI::play(guild.id);
 
 					} else {
@@ -379,7 +386,7 @@ namespace DiscordCoreAPI {
 						InputEvents::deleteInputEventResponseAsync(newEvent).get();
 						InputEvents::deleteInputEventResponseAsync(newerEvent, 20000);
 					}
-					//SongAPI::onSongCompletion(theTask, guild.id);
+					SongAPI::onSongCompletion(theTask, guild.id);
 				} else if (newArgs.optionsArgs.size() == 0 && SongAPI::areWeCurrentlyPlaying(guild.id)) {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
@@ -398,6 +405,7 @@ namespace DiscordCoreAPI {
 					InputEvents::deleteInputEventResponseAsync(newerEvent, 20000);
 					return;
 				} else if (returnData.currentPageIndex != -1 && arrayOfIndices.size() < 2) {
+					
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
 					newEmbed->setDescription("------\n__**Song Title:**__ [" + searchResults[returnData.currentPageIndex].songTitle + "](" +
