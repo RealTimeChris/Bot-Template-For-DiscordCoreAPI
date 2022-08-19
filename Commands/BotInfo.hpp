@@ -35,7 +35,7 @@ namespace DiscordCoreAPI {
 
 				EmbedData messageEmbed;
 				messageEmbed.setAuthor(argsNew.eventData.getUserName(), argsNew.eventData.getAvatarUrl());
-				messageEmbed.setImage(argsNew.discordCoreClient->getBotUser().avatar);
+				messageEmbed.setImage(argsNew.discordCoreClient->getBotUser().getAvatarUrl());
 				messageEmbed.setColor("FEFEFE");
 				messageEmbed.setTitle("__**Bot Info:**__");
 				messageEmbed.setTimeStamp(getTimeAndDate());
