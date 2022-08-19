@@ -220,8 +220,7 @@ namespace DiscordCoreAPI {
 				}
 				auto channelId = newArgs.eventData.getChannelId();
 				if (!SongAPI::areWeCurrentlyPlaying(guild.id)) {
-					auto theTask = [=](SongCompletionEventData eventData) mutable noexcept -> CoRoutine<void> {
-						co_await NewThreadAwaitable<void>();
+					auto theTask = [=](SongCompletionEventData eventData) mutable -> void {
 						std::this_thread::sleep_for(150ms);
 						if (SongAPI::isThereAnySongs(guild.id)) {
 							std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
@@ -229,7 +228,7 @@ namespace DiscordCoreAPI {
 								if (!SongAPI::sendNextSong(guildMember)) {
 									InputEvents::deleteInputEventResponseAsync(newEvent);
 									SongAPI::play(guildMember.guildId);
-									co_return;
+									return;
 								}
 								
 								newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
@@ -336,7 +335,7 @@ namespace DiscordCoreAPI {
 							dataPackage02.addMessageEmbed(*newEmbed);
 							Messages::createMessageAsync(dataPackage02).get();
 						}
-						co_return;
+						return;
 					};
 					if (SongAPI::isThereAnySongs(guild.id)) {
 						if (!SongAPI::sendNextSong(guildMember)) {
@@ -386,7 +385,7 @@ namespace DiscordCoreAPI {
 						InputEvents::deleteInputEventResponseAsync(newEvent).get();
 						InputEvents::deleteInputEventResponseAsync(newerEvent, 20000);
 					}
-					SongAPI::onSongCompletion(theTask, guild.id);
+					//SongAPI::onSongCompletion(std::function<CoRoutine<void>(SongCompletionEventData)>{ theTask }, guild.id);
 				} else if (newArgs.optionsArgs.size() == 0 && SongAPI::areWeCurrentlyPlaying(guild.id)) {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
