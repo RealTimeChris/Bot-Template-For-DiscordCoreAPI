@@ -110,8 +110,8 @@ namespace DiscordCoreAPI {
 				previousPlayedTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 				Play::timeOfLastPlay.insert_or_assign(newArgs.eventData.getGuildId(), previousPlayedTime);
 				Snowflake voiceChannelId{};
-				if (guildMember.getVoiceChannelId() != 0) {
-					voiceChannelId = guildMember.getVoiceChannelId();
+				if (guildMember.voiceChannelId != 0) {
+					voiceChannelId = guildMember.voiceChannelId;
 				} else {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
@@ -149,7 +149,7 @@ namespace DiscordCoreAPI {
 				}
 				
 
-				if (guildMember.getVoiceChannelId() == 0 || guildMember.getVoiceChannelId() != voiceConnection->getChannelId()) {
+				if (guildMember.voiceChannelId == 0 || guildMember.voiceChannelId != voiceConnection->getChannelId()) {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
 					newEmbed->setDescription("------\n__**Sorry, but you need to be in a correct voice channel to issue those commands!**__\n------");
