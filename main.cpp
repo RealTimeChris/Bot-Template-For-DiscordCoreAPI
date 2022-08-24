@@ -6,8 +6,6 @@
 #include "Commands/CommandsList.hpp"
 
 int32_t main() {
-	std::string botToken = "YOUR_BOT_TOKEN_HERE";
-	std::vector<DiscordCoreAPI::RepeatedFunctionData> functionVector{};
 	DiscordCoreAPI::ShardingOptions shardOptions{};
 	shardOptions.numberOfShardsForThisProcess = 1;
 	shardOptions.startingShard = 0;
@@ -20,10 +18,9 @@ int32_t main() {
 	logOptions.logWebSocketErrorMessages = true;
 	logOptions.logWebSocketSuccessMessages = true;
 	DiscordCoreAPI::DiscordCoreClientConfig clientConfig{};
-	clientConfig.botToken = botToken;
+	clientConfig.botToken = "YOUR_BOT_TOKEN_HERE";
 	clientConfig.logOptions = logOptions;
 	clientConfig.shardOptions = shardOptions;
-	clientConfig.functionsToExecute = functionVector;
 	std::vector<DiscordCoreAPI::ActivityData> activities{};
 	DiscordCoreAPI::ActivityData activity{};
 	activity.name = "/help for my commands!";
