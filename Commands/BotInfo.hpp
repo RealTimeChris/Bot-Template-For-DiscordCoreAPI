@@ -27,6 +27,7 @@ namespace DiscordCoreAPI {
 
 		void execute(BaseFunctionArguments& argsNew) {
 			try {
+				std::cout << "WERE HERE THIS IS IT!" << std::endl;
 				auto guilds = Guilds::getAllGuildsAsync().get();
 				int32_t userCount{ 0 };
 				for (auto& value: guilds) {
