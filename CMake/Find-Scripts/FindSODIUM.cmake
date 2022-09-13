@@ -1,5 +1,25 @@
-# This file locates the Sodium library, using a couple of provided paths for searching.
 #
+#	Copyright 2021, 2022 Chris M. (RealTimeChris)
+#
+#	This library is free software; you can redistribute it and/or
+#	modify it under the terms of the GNU Lesser General Public
+#	License as published by the Free Software Foundation; either
+#	version 2.1 of the License, or (at your option) any later version.
+#
+#	This library is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#	Lesser General Public License for more details.
+#
+#	You should have received a copy of the GNU Lesser General Public
+#	License along with this library; if not, write to the Free Software
+#	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+#	USA
+#
+# FindSODIUM.cmake - This file locates the Sodium library, using a couple of provided paths for searching.
+# May 13, 2021
+# https://discordcoreapi.com
+
 # Usage:
 #	Set the following directories: SODIUM_RELEASE_ROOT, SODIUM_DEBUG_ROOT, SODIUM_INCLUDE_DIR
 # Where:
@@ -16,29 +36,22 @@ else()
 	set(LIB_PREFIX "")
 endif()
 find_library(
-	SODIUM_RELEASE_LIBRARY 
-	NAMES "libsodium${LIB_SUFFIX}" 
-	PATHS "${SODIUM_RELEASE_ROOT}"
-	NO_DEFAULT_PATH
-)
-find_library(
 	SODIUM_DEBUG_LIBRARY 
 	NAMES "libsodium${LIB_SUFFIX}" 
 	PATHS "${SODIUM_DEBUG_ROOT}"
 	NO_DEFAULT_PATH
 )
-if (EXISTS "${SODIUM_RELEASE_LIBRARY}" AND EXISTS "${SODIUM_DEBUG_LIBRARY}" AND EXISTS "${SODIUM_INCLUDE_DIR}")
+find_library(
+	SODIUM_RELEASE_LIBRARY 
+	NAMES "libsodium${LIB_SUFFIX}" 
+	PATHS "${SODIUM_RELEASE_ROOT}"
+	NO_DEFAULT_PATH
+)
+if (EXISTS "${SODIUM_DEBUG_LIBRARY}" AND EXISTS "${SODIUM_RELEASE_LIBRARY}" AND EXISTS "${SODIUM_INCLUDE_DIR}")
 	message(STATUS "Found Sodium: TRUE")
 else()
 	message(FATAL_ERROR "Found Sodium: FALSE")
 endif()
-cmake_path(GET SODIUM_RELEASE_LIBRARY PARENT_PATH SODIUM_RELEASE_FILE_PATH)
-find_file(
-	SODIUM_RELEASE_DLL
-	NAMES "libsodium.dll" "sodium.dll" 
-	PATHS "${SODIUM_RELEASE_FILE_PATH}/" "${SODIUM_RELEASE_FILE_PATH}/../bin/"
-	NO_DEFAULT_PATH
-)
 cmake_path(GET SODIUM_DEBUG_LIBRARY PARENT_PATH SODIUM_DEBUG_FILE_PATH)
 find_file(
 	SODIUM_DEBUG_DLL
@@ -46,12 +59,19 @@ find_file(
 	PATHS "${SODIUM_DEBUG_FILE_PATH}/" "${SODIUM_DEBUG_FILE_PATH}/../bin/"
 	NO_DEFAULT_PATH
 )
-if (EXISTS "${SODIUM_RELEASE_DLL}" AND EXISTS "${SODIUM_DEBUG_DLL}")
+cmake_path(GET SODIUM_RELEASE_LIBRARY PARENT_PATH SODIUM_RELEASE_FILE_PATH)
+find_file(
+	SODIUM_RELEASE_DLL
+	NAMES "libsodium.dll" "sodium.dll" 
+	PATHS "${SODIUM_RELEASE_FILE_PATH}/" "${SODIUM_RELEASE_FILE_PATH}/../bin/"
+	NO_DEFAULT_PATH
+)
+if (EXISTS "${SODIUM_DEBUG_DLL}" AND EXISTS "${SODIUM_RELEASE_DLL}")
 	add_library(SODIUM::Sodium SHARED IMPORTED GLOBAL)
 	set_target_properties(
 		SODIUM::Sodium PROPERTIES 
-		IMPORTED_LOCATION_RELEASE "${SODIUM_RELEASE_DLL}" IMPORTED_LOCATION_DEBUG "${SODIUM_DEBUG_DLL}"
-		IMPORTED_IMPLIB_RELEASE "${SODIUM_RELEASE_LIBRARY}" IMPORTED_IMPLIB_DEBUG "${SODIUM_DEBUG_LIBRARY}"
+		IMPORTED_LOCATION_DEBUG "${SODIUM_DEBUG_DLL}" IMPORTED_LOCATION_RELEASE "${SODIUM_RELEASE_DLL}"
+		IMPORTED_IMPLIB_DEBUG "${SODIUM_DEBUG_LIBRARY}" IMPORTED_IMPLIB_RELEASE "${SODIUM_RELEASE_LIBRARY}"
 	)
 	target_include_directories(SODIUM::Sodium INTERFACE "${SODIUM_INCLUDE_DIR}")
 	message(STATUS "Found Sodium Dlls: TRUE")
@@ -59,10 +79,10 @@ else()
 	add_library(SODIUM::Sodium STATIC IMPORTED GLOBAL)
 	set_target_properties(
 		SODIUM::Sodium PROPERTIES 
-		IMPORTED_LOCATION_RELEASE "${SODIUM_RELEASE_LIBRARY}" IMPORTED_LOCATION_DEBUG "${SODIUM_DEBUG_LIBRARY}"
+		IMPORTED_LOCATION_DEBUG "${SODIUM_DEBUG_LIBRARY}" IMPORTED_LOCATION_RELEASE "${SODIUM_RELEASE_LIBRARY}"
 	)
 	target_include_directories(SODIUM::Sodium INTERFACE "${SODIUM_INCLUDE_DIR}")
-	unset(SODIUM_RELEASE_DLL CACHE)
 	unset(SODIUM_DEBUG_DLL CACHE)
+	unset(SODIUM_RELEASE_DLL CACHE)
 	message(STATUS "Found Sodium Dlls: FALSE - linking statically")
 endif()
