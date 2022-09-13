@@ -86,6 +86,7 @@ find_package(NLOHMANN MODULE REQUIRED)
 find_package(OPENSSL MODULE REQUIRED)
 find_package(OPUS MODULE REQUIRED)
 find_package(SODIUM MODULE REQUIRED)
+find_package(simdjson MODULE REQUIRED)
 find_package(DiscordCoreAPI CONFIG REQUIRED)
 
 add_subdirectory(Executable)
