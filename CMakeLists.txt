@@ -1,5 +1,5 @@
 # Set this value...
-set(VCPKG_ROOT_DIR "")
+set(VCPKG_ROOT_DIR "/home/chris/vcpkg")
 # OR this value...
 set(CMAKE_CONFIG_FILE_DIR "C:/Users/Chris/CMake/DiscordCoreAPI/share/discordcoreapi")
 # AND these values.
