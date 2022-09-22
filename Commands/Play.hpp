@@ -129,7 +129,7 @@ namespace DiscordCoreAPI {
 					InputEvents::deleteInputEventResponseAsync(newerEvent, 20000);
 					return;
 				}
-				VoiceConnection* voiceConnection = guild.connectToVoice(guildMember.id, 0, false, false);
+				VoiceConnection* voiceConnection = guild.connectToVoice(guildMember.id);
 				if (voiceConnection == nullptr) {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
