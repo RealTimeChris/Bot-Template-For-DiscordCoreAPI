@@ -14,6 +14,7 @@ cmake_minimum_required(VERSION 3.20)
 set(PROJECT_NAME "DiscordCoreAPI-Bot")
 set(PRODUCT_VERSION "1.0.0.9")
 set(DESCRIPTION "A Discord bot, written in C++, using the DiscordCoreAPI Discord bot library.")
+set(DiscordCoreAPI_DIR "${CMAKE_CONFIG_FILE_DIR}")
 project(
 	"${PROJECT_NAME}"
 	VERSION "${PRODUCT_VERSION}"
