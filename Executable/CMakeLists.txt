@@ -26,9 +26,22 @@ if (DEFINED ENV{EnableASAN})
 	endif()
 endif()
 
+find_package(FFMPEG MODULE REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(Opus CONFIG REQUIRED)
+find_package(simdjson CONFIG REQUIRED)
+find_package(unofficial-sodium CONFIG REQUIRED)
+
 target_link_libraries(
 	"${PROJECT_NAME}" PUBLIC
+	${FFMPEG_LIBRARIES}
 	DiscordCoreAPI::DiscordCoreAPI
+	$<$<TARGET_EXISTS:OpenSSL::SSL>:OpenSSL::SSL>
+	$<$<TARGET_EXISTS:OpenSSL::Crypto>:OpenSSL::Crypto>
+	$<$<TARGET_EXISTS:Opus::opus>:Opus::opus>
+	$<$<TARGET_EXISTS:simdjson::simdjson>:simdjson::simdjson>
+	$<$<TARGET_EXISTS:unofficial-sodium::sodium>:unofficial-sodium::sodium>
+	$<$<TARGET_EXISTS:Threads::Threads>:Threads::Threads>
 )
 
 set_target_properties(
