@@ -7,6 +7,7 @@ set(FFMPEG_DIR "C:/Vcpkg/installed/x64-windows/share/ffmpeg") # Set this one to 
 set(Opus_DIR "C:/Vcpkg/installed/x64-windows/share/opus") # Set this one to the folder location of the file "OpusConfig.cmake".
 set(simdjson_DIR "C:/Vcpkg/installed/x64-windows/share/simdjson") # Set this one to the folder location of the file "simdjson-config.cmake".
 set(unofficial-sodium_DIR "C:/Vcpkg/installed/x64-windows/share/unofficial-sodium") # Set this one to the folder location of the file "unofficial-sodiumConfig.cmake".
+set(OPENSSL_ROOT_DIR "C:/Vcpkg/installed/x64-windows/") # Set this one to the folder location of the include folder and library folders of OpenSSL.
 # Also, set this value to install the output files to a particular location.
 set(CMAKE_INSTALL_PREFIX)
 
