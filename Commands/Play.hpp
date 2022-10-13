@@ -72,12 +72,14 @@ namespace DiscordCoreAPI {
 
 		void execute(BaseFunctionArguments& newArgs) {
 			try {
-				Channel channel = Channels::getCachedChannelAsync({ newArgs.eventData.getChannelId() }).get();
+				Channel channel = Channels::getCachedChannel({ newArgs.eventData.getChannelId() });
+				
 
-				Guild guild = Guilds::getCachedGuildAsync({ newArgs.eventData.getGuildId() }).get();
+				Guild guild = Guilds::getCachedGuild({ newArgs.eventData.getGuildId() });
+				
 
-				GuildMember guildMember =
-					GuildMembers::getCachedGuildMemberAsync({ .guildMemberId = newArgs.eventData.getAuthorId(), .guildId = newArgs.eventData.getGuildId() }).get();
+				GuildMember guildMember = GuildMembers::getCachedGuildMember({ .guildMemberId = newArgs.eventData.getAuthorId(), .guildId = newArgs.eventData.getGuildId() });
+				
 
 				InputEventData newEvent = newArgs.eventData;
 
