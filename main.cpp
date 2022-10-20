@@ -26,7 +26,6 @@ int32_t main() {
 	activity.name = "/help for my commands!";
 	activity.type = DiscordCoreAPI::ActivityType::Game;
 	activities.push_back(activity);
-	clientConfig.connectionAddress = "127.0.0.1";
 	clientConfig.presenceData.activities = activities;
 	clientConfig.presenceData.afk = false;
 	clientConfig.presenceData.since = 0;
