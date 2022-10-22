@@ -170,11 +170,11 @@ namespace DiscordCoreAPI {
 				}
 
 				std::vector<Song> searchResults{};
-				if (newArgs.optionsArgs.theValues.size() > 0) {
-					searchResults = SongAPI::searchForSong(newArgs.optionsArgs.theValues["songname"].theValue, guild.id);
+				if (newArgs.optionsArgs.values.size() > 0) {
+					searchResults = SongAPI::searchForSong(newArgs.optionsArgs.values["songname"].value, guild.id);
 				}
 
-				if (searchResults.size() <= 0 && newArgs.optionsArgs.theValues.size() > 0) {
+				if (searchResults.size() <= 0 && newArgs.optionsArgs.values.size() > 0) {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
 					newEmbed->setDescription("------\n__**No songs could be found as a result of your search!**__\n------");
@@ -388,7 +388,7 @@ namespace DiscordCoreAPI {
 						InputEvents::deleteInputEventResponseAsync(newerEvent, 20000);
 					}
 					//SongAPI::onSongCompletion(std::function<CoRoutine<void>(SongCompletionEventData)>{ theTask }, guild.id);
-				} else if (newArgs.optionsArgs.theValues.size() == 0 && SongAPI::areWeCurrentlyPlaying(guild.id)) {
+				} else if (newArgs.optionsArgs.values.size() == 0 && SongAPI::areWeCurrentlyPlaying(guild.id)) {
 					std::unique_ptr<DiscordCoreAPI::EmbedData> newEmbed{ std::make_unique<DiscordCoreAPI::EmbedData>() };
 					newEmbed->setAuthor(newArgs.eventData.getUserName(), newArgs.eventData.getAvatarUrl());
 					newEmbed->setDescription("------\n__**Sorry, but there's already something playing!**__\n------");
