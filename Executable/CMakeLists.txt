@@ -10,6 +10,11 @@ generate_product_version(
 	VERSION_REVISION "9"
 )
 
+if (UNIX)
+	set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -Ofast")
+	set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG -O1")
+endif()
+
 add_executable(
 	"${PROJECT_NAME}"
 	"../main.cpp"
