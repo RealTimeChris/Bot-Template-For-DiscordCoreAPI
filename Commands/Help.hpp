@@ -127,7 +127,7 @@ namespace DiscordCoreAPI {
 						RespondToInputEventData responseData03(*buttonData.at(0).interactionData);
 						responseData03.setResponseType(InputEventResponseType::Edit_Interaction_Response);
 						responseData03.addMessageEmbed(msgEmbed00);
-						responseData03.addSelectMenu(false, "help_menu", value, "Commands", 1, 1);
+						responseData03.addSelectMenu(false, "help_menu", value, "Commands", 1, 1, SelectMenuType::String_Select);
 						editInteractionResponseData00.push_back(responseData03);
 						counter03 += 1;
 					}
