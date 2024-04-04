@@ -14,6 +14,7 @@ namespace discord_core_api {
 		bot_info() {
 			commandName = "botinfo";
 			helpDescription = "Displays some info about this bot.";
+			
 			embed_data msgEmbed{};
 			msgEmbed.setDescription("------\nEnter /botinfo.\n------");
 			msgEmbed.setTitle("__**Bot Info Usage:**__");
@@ -51,6 +52,7 @@ namespace discord_core_api {
 				messageEmbed.addField("__Serving Users:__", jsonifier::toString(userCount), true);
 				messageEmbed.addField("__Running On:__", "[discord_core_api Bot Library](https://discordcoreapi.com)", true);
 				messageEmbed.addField("__Created By:__", "<@931311002702737418>", true);
+				
 				auto timePassed = discord_core_client::getInstance()->getTotalUpTime().count() > 0
 					? discord_core_client::getInstance()->getTotalUpTime().count()
 					: 0;
@@ -61,15 +63,16 @@ namespace discord_core_api {
 				int64_t daysPassed = ( int64_t )trunc(timePassed / millisecondsPerDay);
 				int64_t hoursPassed = ( int64_t )trunc((timePassed % millisecondsPerDay) / millisecondsPerHour);
 				int64_t minutesPassed = ( int64_t )trunc(((timePassed % millisecondsPerDay) % millisecondsPerHour) / millisecondsPerMinute);
-
 				int64_t secondsPassed =
 					( int64_t )trunc((((timePassed % millisecondsPerDay) % millisecondsPerHour) % millisecondsPerMinute) / millisecondsPerSecond);
 				jsonifier::string string{ jsonifier::toString(daysPassed) + " Days, " + jsonifier::toString(hoursPassed) + " Hours, " +
 					jsonifier::toString(minutesPassed) + " Minutes, " + jsonifier::toString(secondsPassed) + " Seconds." };
+				
 				messageEmbed.addField("__Total Uptime:__", string, true);
 				respond_to_input_event_data dataPackage(argsNew.getInputEventData());
 				dataPackage.setResponseType(input_event_response_type::Interaction_Response);
 				dataPackage.addMessageEmbed(messageEmbed);
+				
 				auto eventNew = input_events::respondToInputEventAsync(dataPackage).get();
 				return;
 			} catch (const dca_exception& error) {
